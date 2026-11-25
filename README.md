@@ -2,6 +2,8 @@
 
 为 BMW CIC HIGH 验证百度 CarLife 有线投屏的实验项目。第一阶段是 Android 手机作为发送端、CIC 作为 USB Host 接收 CarLife 的 H.264 画面。
 
+本项目采用 **PolyForm Noncommercial 1.0.0**，允许非商业使用、修改和分发。商用需要另行授权。见 [许可证](LICENSE) 和 [署名说明](NOTICE.md)。
+
 ## CIC 的接入点
 
 [bmw-cic-androidauto 的源码](https://github.com/josemalm32/bmw-cic-androidauto/tree/6d8d5754e3e580e83143b94cac9a0b1096ef71a0) 把 Android Auto 协议、HMI 和视频解码分开。HmiMain 加载插件和 `libcicaa.so`。协议模块把 AVC 配置和样本送入共享环，独立的 `cicaalive` 再经 `dspipc` 把视频交给 TI DM642。插件使用 CIC 原生 DVD 视频源和合成层显示。固件调用依赖 HmiMain 版本签名。上游记录了 CIC HIGH C1A 和部分 C16A 的测试，F02 仍需要按实际 HmiMain 构建号和签名核对。详见 [上游架构](https://github.com/josemalm32/bmw-cic-androidauto/blob/6d8d5754e3e580e83143b94cac9a0b1096ef71a0/docs/ARQUITECTURA.md)。
@@ -45,6 +47,8 @@ python tests\replay_test.py out\cic-carlife-replay.exe --bridge $bridge --ffmpeg
 
 准备 QNX Momentics 6.3 for Windows 的 SH4 工具链，设置 `QNX_HOST` 和 `QNX_TARGET`，然后用另一个目录里的上游 checkout 构建。
 
+需要 `$QNX_HOST/usr/bin/ntosh-gcc-3.3.5.exe`、`$QNX_TARGET/shle/lib/libc.so.2` 和 `$QNX_TARGET/usr/include/sys/usbdi.h`。QNX 已将 6.3.x 列入停服归档，官方旧版下载页需要 myQNX 登录。 [QNX 旧版归档](https://www.qnx.com/download/group.html?programid=9193) · [QNX 6.3.2 Windows 安装说明](https://qnx.com/developers/docs/6.3.2/momentics/installation_guide/windows_hosts.html)
+
 ```powershell
 git clone https://github.com/josemalm32/bmw-cic-androidauto.git ..\bmw-cic-androidauto
 git -C ..\bmw-cic-androidauto checkout 6d8d5754e3e580e83143b94cac9a0b1096ef71a0
@@ -59,4 +63,4 @@ python tools\build_qnx.py --upstream ..\bmw-cic-androidauto
 
 - [Apollo/DuerOS CarLife Vehicle Lib 存档](https://github.com/674809/carlife/tree/f9522db31a5244b89a2f3f555b2e0ad882b48674/CarLife-Vehicle-Lib) 提供协议编号和 protobuf 字段。另一份上游存档保留了 [Baidu AOA Host 实现](https://github.com/milesking/apollo-DuerOS/blob/6a07419818f46aadda34c5f55e63d4a1fc8136ef/CarLife-Android-Vehicle/src/com/baidu/carlifevehicle/connect/AOAHostSetup.java)。
 - [CarLife HeadUnit Emulator 的兼容性记录](https://github.com/SadykovIV/HSD-HeadUnit-Emulator/blob/2c125d801e582b48083d9deabc642ec59d23f454/docs/CARLIFE_AUTH.md) 说明较新手机可能需要的协议分支。
-- 本仓库的独立协议实现和离线回放可自行编译。QNX 模块会编入 `bmw-cic-androidauto` 的代码，适用上游 [PolyForm Noncommercial 1.0.0](https://github.com/josemalm32/bmw-cic-androidauto/blob/6d8d5754e3e580e83143b94cac9a0b1096ef71a0/LICENSE.md)，构建输出保留原作者 [Required Notice](https://github.com/josemalm32/bmw-cic-androidauto/blob/6d8d5754e3e580e83143b94cac9a0b1096ef71a0/NOTICE.md)。
+- 本仓库的独立协议实现和离线回放可自行编译。QNX 模块会编入 `bmw-cic-androidauto` 的代码。构建输出包含本项目与上游的许可证及署名。商用包含上游代码的模块还需要获得对应的上游授权。 [上游许可证](https://github.com/josemalm32/bmw-cic-androidauto/blob/6d8d5754e3e580e83143b94cac9a0b1096ef71a0/LICENSE.md) · [上游署名](https://github.com/josemalm32/bmw-cic-androidauto/blob/6d8d5754e3e580e83143b94cac9a0b1096ef71a0/NOTICE.md)

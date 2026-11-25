@@ -81,6 +81,8 @@ def main():
         if header[:7] != b"\x7fELF\x01\x01\x01" or header[16:20] != b"\x03\x00\x2a\x00":
             raise SystemExit("Output is not an ELF32 little-endian SuperH shared object")
         output.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / "LICENSE", output / "LICENSE")
+        shutil.copyfile(ROOT / "NOTICE.md", output / "NOTICE.md")
         shutil.copyfile(upstream / "LICENSE.md", output / "UPSTREAM-LICENSE.md")
         shutil.copyfile(upstream / "NOTICE.md", output / "UPSTREAM-NOTICE.md")
         shutil.copyfile(binary, output / name)
